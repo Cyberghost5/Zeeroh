@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Organizer;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Ticket;
+use App\Notifications\PostCheckInReviewNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -70,6 +71,12 @@ class AttendeeController extends Controller
         }
 
         $ticket->update(['checked_in_at' => now(), 'status' => 'used']);
+
+        if ($ticket->user) {
+            $ticket->user->notify(
+                (new PostCheckInReviewNotification($ticket->load('event')))->delay(now()->addHours(2))
+            );
+        }
 
         return response()->json([
             'success' => true,
