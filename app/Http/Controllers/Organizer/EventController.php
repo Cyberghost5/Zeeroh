@@ -7,7 +7,10 @@ use App\Http\Requests\Organizer\StoreEventRequest;
 use App\Http\Requests\Organizer\UpdateEventRequest;
 use App\Models\Category;
 use App\Models\Event;
+use App\Models\User;
+use App\Notifications\EventSubmittedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
@@ -77,6 +80,9 @@ class EventController extends Controller
                 'is_active'     => true,
             ]);
         }
+
+        $admins = User::where('role', 'admin')->get();
+        Notification::send($admins, new EventSubmittedNotification($event->load('organizer')));
 
         return redirect()
             ->route('organizer.events.index')

@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Event;
 use App\Models\PayoutRequest;
+use App\Models\User;
+use App\Notifications\PayoutRequestedNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class PayoutController extends Controller
 {
@@ -79,7 +82,7 @@ class PayoutController extends Controller
             return back()->with('error', 'You already have a pending payout request. Please wait for it to be processed.');
         }
 
-        PayoutRequest::create([
+        $payout = PayoutRequest::create([
             'organizer_id'   => $organizer->id,
             'amount'         => $data['amount'],
             'bank_name'      => $profile->bank_name,
@@ -87,6 +90,9 @@ class PayoutController extends Controller
             'account_name'   => $profile->account_name,
             'status'         => 'pending',
         ]);
+
+        $admins = User::where('role', 'admin')->get();
+        Notification::send($admins, new PayoutRequestedNotification($payout->load('organizer')));
 
         return back()->with('success', 'Payout request submitted. We\'ll process it within 2–3 business days.');
     }

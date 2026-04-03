@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PayoutRequest;
+use App\Notifications\PayoutCompletedNotification;
 use Illuminate\Http\Request;
 
 class PayoutController extends Controller
@@ -41,6 +42,8 @@ class PayoutController extends Controller
         abort_unless(in_array($payout->status, ['pending', 'approved']), 422, 'Cannot mark as paid.');
 
         $payout->update(['status' => 'paid', 'paid_at' => now()]);
+
+        $payout->organizer?->notify(new PayoutCompletedNotification($payout));
 
         return back()->with('success', 'Payout marked as paid.');
     }
