@@ -32,3 +32,5 @@ class TicketTransferNotification extends Notification
             ->line('**Date:** ' . $this->ticket->event->start_date->format('l, F j, Y'))
             ->action('Accept Ticket Transfer', $acceptUrl)
             ->line('This link expires in 48 hours. If you did not expect this, you can ignore this email.');
+    }
+}

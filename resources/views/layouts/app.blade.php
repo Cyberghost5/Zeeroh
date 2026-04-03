@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+    <style>[x-cloak]{display:none!important}</style>
 </head>
 <body class="font-sans antialiased bg-gray-50">
 
@@ -28,7 +29,7 @@
          style="display:none;"></div>
 
     {{-- Sidebar --}}
-    <aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 bg-white border-r border-gray-200 flex-shrink-0 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0"
+    <aside x-cloak class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 bg-white border-r border-gray-200 flex-shrink-0 transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0"
            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
 
         {{-- Brand --}}

@@ -39,3 +39,5 @@ class EventStatusNotification extends Notification
             ->line('You can edit the event and resubmit for review.')
             ->action('Edit Event', route('organizer.events.edit', $this->event))
             ->line('If you have questions, please contact support.');
+    }
+}

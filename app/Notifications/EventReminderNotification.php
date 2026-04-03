@@ -27,3 +27,5 @@ class EventReminderNotification extends Notification
                 : '📍 ' . $this->event->venue_name . ', ' . $this->event->city)
             ->action('View Your Tickets', route('dashboard'))
             ->line('See you there!');
+    }
+}

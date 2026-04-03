@@ -28,3 +28,5 @@ class WaitlistAvailableNotification extends Notification
             ->line('Grab yours before they sell out again!')
             ->action('Get Tickets Now', route('events.show', $this->event->slug))
             ->line('Hurry — availability is limited!');
+    }
+}
