@@ -95,7 +95,12 @@ class EventController extends Controller
             'revenue'  => $tt->quantity_sold * $tt->price,
         ]);
 
-        return view('organizer.events.show', compact('event', 'salesData'));
+        $waitlist = $event->waitlist()
+            ->with('user', 'ticketType')
+            ->orderBy('created_at')
+            ->get();
+
+        return view('organizer.events.show', compact('event', 'salesData', 'waitlist'));
     }
 
     public function edit(Event $event)

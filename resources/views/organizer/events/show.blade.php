@@ -168,6 +168,29 @@
         {{-- Sidebar --}}
         <div class="space-y-5">
 
+            {{-- Waitlist --}}
+            @if($waitlist->isNotEmpty())
+            <div class="card overflow-hidden">
+                <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Waitlist</h3>
+                    <span class="bg-amber-100 text-amber-700 text-xs font-semibold px-2 py-0.5 rounded-full">{{ $waitlist->count() }}</span>
+                </div>
+                <ul class="divide-y divide-gray-50">
+                    @foreach($waitlist as $entry)
+                    <li class="flex items-center gap-3 px-5 py-3">
+                        <div class="w-7 h-7 rounded-full bg-primary-100 flex items-center justify-center text-xs font-bold text-primary-700 flex-shrink-0">
+                            {{ strtoupper(substr($entry->user->name, 0, 1)) }}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">{{ $entry->user->name }}</p>
+                            <p class="text-xs text-gray-400 truncate">{{ $entry->ticketType?->name ?? 'Any' }} &bull; {{ $entry->created_at->format('d M') }}</p>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
             {{-- Quick stats --}}
             <div class="card p-5">
                 <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-4">Quick Stats</h3>
